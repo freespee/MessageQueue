@@ -4,7 +4,7 @@ MessageQueue is a super light-weight and simple message queue PHP class which re
 
 ### Usage
 
-1. Start the mq_worker.php and mq_worker_delayed.php scripts in a screen:
+1) Start the mq_worker.php and mq_worker_delayed.php scripts in a screen:
 
 ```
 $ php mq_worker.php
@@ -14,9 +14,9 @@ $ php mq_worker_delayed.php
 2017-01-11 21:13:32 Waiting for delayed jobs...
 ```
 
-2. Create a new PHP class based on ExampleQueue (or use it as it is..)
+2) Create a new PHP class based on ExampleQueue (or use it as it is..)
 
-3. Create a new job and throw it into the ExampleQueue:
+3) Create a new job and throw it into the ExampleQueue:
 
 ```PHP
 $job = [
@@ -35,7 +35,7 @@ if ($qExample->addToQueue($job) === false) {
 }
 ```
 
-4. Watch the job being handled by mq_worker or mq_worker_delay depending on if it should be delayed or not.
+4) Watch the job being handled by mq_worker or mq_worker_delay depending on if it should be delayed or not.
 
 ### Scaling up
 
