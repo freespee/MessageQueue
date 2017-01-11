@@ -4,9 +4,9 @@ namespace Freespee\MessageQueue;
 
 class ExampleQueue extends MessageQueue
 {
-    public function __construct()
+    public function __construct($redisConfig)
     {
-        parent::__construct();
+        parent::__construct($redisConfig);
 
         $this->queueName = 'ExampleQueue;
     }
