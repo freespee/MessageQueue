@@ -1,8 +1,5 @@
 <?php 
 
-include_once '../MessageQueue.php';
-include_once '../MessageQueueCli.php';
-
 /*
  * This script should run in a screen and will process
  * and put back all delayed jobs into the main queue.
