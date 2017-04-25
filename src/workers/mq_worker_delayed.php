@@ -20,20 +20,25 @@ $sleep = 30;
 $mq->logMsg('Waiting for delayed jobs...');
 
 while (true) {
+    $end = time();
     try {
         $a = $mq->r->multi()
-            ->zrangebyscore($mq::$delayQueue, 0, time())
-            ->zremrangebyscore($mq::$delayQueue, 0, time())
+            ->zrangebyscore($mq::$delayQueue, 0, $end)
+            ->zremrangebyscore($mq::$delayQueue, 0, $end)
             ->exec();
     } catch (\Exception $e) {
         $mq->reconnectToRedis();
     }
 
-    if (!empty($a) && !empty($a[0])) {
-        $job = json_decode($a[0][0], true);
-        $mq->logMsg('Picking up delayed message '.$job['id'].' putting back into queue');
-        unset($job['delay']);
-        $mq->r->lPush($mq::$mainQueue, json_encode($job));
+    if (!empty($a[0])) {
+        $rawJobs = $a[0];
+
+        foreach ($rawJobs as $rawJob) {
+            $job = json_decode($rawJob, true);
+            unset($job['delay']);
+            $mq->logMsg('Picking up delayed message '.$job['id'].' putting back into queue');
+            $mq->r->lPush($mq::$mainQueue, json_encode($job));
+        }
     }
 
     sleep($sleep);
